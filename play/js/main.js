@@ -28,7 +28,8 @@ function preload() {
     this.load.image('bg-s1-0', 'assets/bg/s1-0.png');
     this.load.image('bg-s1-1', 'assets/bg/s1-1.png');
     this.load.image('bg-s1-2', 'assets/bg/s1-2.png');
-    this.load.spritesheet('kuso', 'assets/kuso3d-act_v2.png', { frameWidth: 240, frameHeight: 320 });
+    this.load.image('bg-s1-3', 'assets/bg/s1-3.png');
+    this.load.spritesheet('kuso', 'assets/kuso3d-act_v3.png', { frameWidth: 240, frameHeight: 320 });
 }
 
 const speed = 5;
@@ -46,9 +47,10 @@ function create(){
     background = this.add.tileSprite(posX, posY, imageWidth, imageHeight, 'bg-s1-0');
     background = this.add.tileSprite(posX, posY, imageWidth, imageHeight, 'bg-s1-1');
     background = this.add.tileSprite(posX, posY, imageWidth, imageHeight, 'bg-s1-2');
+    background = this.add.tileSprite(posX, posY, imageWidth, imageHeight, 'bg-s1-3');
     background.setScale(scale);    
     
-    this.player = new Player(this, 400, 450);
+    this.player = new Player(this, 200, 450, scale);
 
     //this.physics.add.collider(this.player.sprite, worldLayer);   
 }

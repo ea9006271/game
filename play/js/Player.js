@@ -1,5 +1,7 @@
 export default class Player {
-    constructor(scene, x, y) {
+    
+    constructor(scene, x, y, scale) {
+        
         this.scene = scene;
 
         const anims = scene.anims;
