@@ -25,14 +25,22 @@ export default class Player {
 
         this.sprite = scene.physics.add
             .sprite(x, y, "kuso", 0)//初始位置
-            .setSize(30, 30)//碰撞器大小
-            .setOffset(0, 20)//碰撞器位置
+            .setSize(240, 320)//碰撞器大小
+            .setOffset(0, 0)//碰撞器位置
             .setScale(1); //縮放比例
 
         this.keys =scene.input.keyboard.addKeys({ 
-            'left': Phaser.Input.Keyboard.KeyCodes.A,
-            'right': Phaser.Input.Keyboard.KeyCodes.D});   
-        
+            'left': Phaser.Input.Keyboard.KeyCodes.LEFT,
+            'right': Phaser.Input.Keyboard.KeyCodes.RIGHT});        
+        /*
+            this.keys = {
+                up: ['UP', Phaser.Input.Keyboard.KeyCodes.UP, Phaser.Input.Keyboard.KeyCodes.W],
+                right: ['RIGHT', Phaser.Input.Keyboard.KeyCodes.RIGHT, Phaser.Input.Keyboard.KeyCodes.D],
+                down: ['DOWN', Phaser.Input.Keyboard.KeyCodes.DOWN, Phaser.Input.Keyboard.KeyCodes.S],
+                left: ['LEFT', Phaser.Input.Keyboard.KeyCodes.LEFT, Phaser.Input.Keyboard.KeyCodes.A],
+                interact: [Phaser.Input.Keyboard.KeyCodes.ENTER, Phaser.Input.Keyboard.KeyCodes.SPACE],
+            }
+        */
         this.sprite.anims.play("stand", true);
     }
 
