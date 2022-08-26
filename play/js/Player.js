@@ -1,6 +1,6 @@
 export default class Player {
     
-    constructor(scene, x, y, scale) {
+    constructor(scene, scale) {
         
         this.scene = scene;
 
@@ -25,11 +25,17 @@ export default class Player {
             repeat: -1
         });
 
+        //計算初始位置
+        let x = 240*scale*1.4375/2;
+        console.log(x);
+        let y = 320*scale*1.4375*1.75;
+        console.log(y);
+
         this.sprite = scene.physics.add
             .sprite(x, y, "kuso", 0)//初始位置
             .setSize(240, 320)//碰撞器大小
             .setOffset(0, 0)//碰撞器位置
-            .setScale(1); //縮放比例
+            .setScale(scale*1.4375); //縮放比例
 
         this.keys =scene.input.keyboard.addKeys({ 
             'left': Phaser.Input.Keyboard.KeyCodes.LEFT,
