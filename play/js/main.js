@@ -128,9 +128,13 @@ function create(){
         'A': Phaser.Input.Keyboard.KeyCodes.A,
         'D': Phaser.Input.Keyboard.KeyCodes.D
     });          
+
 }
 
 var btnRightOn = false;
+var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+//console.log(isMobile);
+
 function btnRightOver(){
     btnRightOn = true;
 }
@@ -139,19 +143,29 @@ function btnRightOut(){
     player.moveRight = false;
     btnR1.visible = false;
 }
-function btnRightDown(){
-    if(btnRightOn){
+function btnRightDown(pointer){
+    if(!isMobile){
+        if(btnRightOn)
+        {
+            player.moveRight = true;
+            btnR1.visible = true;
+        }
+        else{
+            player.moveRight = false;
+            btnR1.visible = false;
+        }
+    }
+    else{
         player.moveRight = true;
         btnR1.visible = true;
     }
-    else{
-        player.moveRight = false;
-        btnR1.visible = false;
-    }
 }
 function btnRightUp(){
-    player.moveRight = false;    
-    btnR1.visible = false;
+    //if(!isMobile)
+    {
+        player.moveRight = false;    
+        btnR1.visible = false;
+    }
 }
 
 var btnLeftOn = false;
@@ -165,13 +179,19 @@ function btnLeftOut(){
     btnL1.visible = false;
 }
 function btnLeftDown(){
-    if(btnLeftOn){
-        player.moveLeft = true;
-        btnL1.visible = true;
+    if(!isMobile){
+        if(btnLeftOn){
+            player.moveLeft = true;
+            btnL1.visible = true;
+        }
+        else{
+            player.moveLeft = false;
+            btnL1.visible = false;
+        }
     }
     else{
-        player.moveLeft = false;
-        btnL1.visible = false;
+        player.moveLeft = true;
+        btnL1.visible = true;
     }
 }
 function btnLeftUp(){
