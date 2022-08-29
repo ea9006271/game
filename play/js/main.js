@@ -63,12 +63,13 @@ function create(){
     this.add.tileSprite(posX, posY, imageWidth, imageHeight, 'bg-s1-4').setScale(scale).setDepth(100);//光點
 
     let w = 352, h=162;
-    this.add.tileSprite((w/2)*scale, ((imageHeight-h)/2)*scale, w, h,  'btn0').setScale(scale).setDepth(100);
+    this.add.tileSprite((w/2)*scale*1.5, ((imageHeight-h)/2)*scale, w, h,  'btn0').setScale(scale*1.5).setDepth(100);
+
     w = 59, h=81;
-    btnL0 = this.add.tileSprite((w/2*2)*scale, ((imageHeight-162)/2)*scale, w, h, 'btnL0').setScale(scale).setDepth(100);
-    btnL1 = this.add.tileSprite((w/2*2)*scale, ((imageHeight-162)/2)*scale, w, h, 'btnL1').setScale(scale).setDepth(100);
-    btnR0 = this.add.tileSprite((w/2*2)*scale*5, ((imageHeight-162)/2)*scale, w, h, 'btnR0').setScale(scale).setDepth(100);
-    btnR1 = this.add.tileSprite((w/2*2)*scale*5, ((imageHeight-162)/2)*scale, w, h, 'btnR1').setScale(scale).setDepth(100);
+    btnL0 = this.add.tileSprite((w/2*2)*scale*1.5, ((imageHeight-162)/2)*scale, w, h, 'btnL0').setScale(scale*1.5).setDepth(100);
+    btnL1 = this.add.tileSprite((w/2*2)*scale*1.5, ((imageHeight-162)/2)*scale, w, h, 'btnL1').setScale(scale*1.5).setDepth(100);
+    btnR0 = this.add.tileSprite((w/2*2)*scale*5*1.5, ((imageHeight-162)/2)*scale, w, h, 'btnR0').setScale(scale*1.5).setDepth(100);
+    btnR1 = this.add.tileSprite((w/2*2)*scale*5*1.5, ((imageHeight-162)/2)*scale, w, h, 'btnR1').setScale(scale*1.5).setDepth(100);
     btnL1.visible = false;
     btnR1.visible = false;
 
