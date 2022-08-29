@@ -1,5 +1,4 @@
 export default class Player {
-    
     constructor(scene, scale) {
         
         this.scene = scene;
@@ -39,30 +38,24 @@ export default class Player {
 
         this.keys =scene.input.keyboard.addKeys({ 
             'left': Phaser.Input.Keyboard.KeyCodes.LEFT,
-            'right': Phaser.Input.Keyboard.KeyCodes.RIGHT});        
-        /*
-            this.keys = {
-                up: ['UP', Phaser.Input.Keyboard.KeyCodes.UP, Phaser.Input.Keyboard.KeyCodes.W],
-                right: ['RIGHT', Phaser.Input.Keyboard.KeyCodes.RIGHT, Phaser.Input.Keyboard.KeyCodes.D],
-                down: ['DOWN', Phaser.Input.Keyboard.KeyCodes.DOWN, Phaser.Input.Keyboard.KeyCodes.S],
-                left: ['LEFT', Phaser.Input.Keyboard.KeyCodes.LEFT, Phaser.Input.Keyboard.KeyCodes.A],
-                interact: [Phaser.Input.Keyboard.KeyCodes.ENTER, Phaser.Input.Keyboard.KeyCodes.SPACE],
-            }
-        */
+            'right': Phaser.Input.Keyboard.KeyCodes.RIGHT,
+            'A': Phaser.Input.Keyboard.KeyCodes.A,
+            'D': Phaser.Input.Keyboard.KeyCodes.D
+        });        
         this.sprite.anims.play("stand", true);
+        var moveRight = false, moveLeft = false;
     }
-
+    
     update(time, delta) {
-        const keys = this.keys;
-        const sprite = this.sprite;
         const speed = 175;
+        const sprite = this.sprite;
         const prevVelocity = sprite.body.velocity.clone();
-        sprite.body.setVelocity(0);
-
-        if (keys.left.isDown) {
+        sprite.body.setVelocity(0);        
+        const keys = this.keys;
+        if (keys.left.isDown || keys.A.isDown || this.moveLeft) {
             sprite.body.setVelocityX(-speed);
             sprite.anims.play("left", true);
-        } else if (keys.right.isDown) {
+        } else if (keys.right.isDown || keys.D.isDown  || this.moveRight) {
             sprite.body.setVelocityX(speed);
             sprite.anims.play("right", true);
         }

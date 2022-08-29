@@ -31,6 +31,13 @@ function preload() {
     this.load.image('bg-s1-2', 'assets/bg/s1-2.png');
     this.load.image('bg-s1-3', 'assets/bg/s1-3.png');
     this.load.image('bg-s1-4', 'assets/bg/s1-4.png');
+
+    this.load.image('btn0', 'assets/img/btn0.png');
+    this.load.image('btnL0', 'assets/img/btnL0.png');
+    this.load.image('btnL1', 'assets/img/btnL1.png');
+    this.load.image('btnR0', 'assets/img/btnR0.png');
+    this.load.image('btnR1', 'assets/img/btnR1.png');
+
     this.load.spritesheet('kuso', 'assets/kuso3d-act_v3.png', { frameWidth: 240, frameHeight: 320 });
     
     this.load.spritesheet('s1-001', 'assets/ani/s1-001.png', { frameWidth: 466, frameHeight: 454 });
@@ -39,7 +46,8 @@ function preload() {
 }
 
 var player;
-
+var btnL0, btnL1, btnR0, btnR1;
+var cursors;
 function create(){
     //設定背景圖原始寬高
     let imageWidth = 1920, imageHeight = 1080;
@@ -53,6 +61,30 @@ function create(){
     this.add.tileSprite(posX, posY, imageWidth, imageHeight, 'bg-s1-1').setScale(scale).setDepth(50);//中景
     this.add.tileSprite(posX, posY, imageWidth, imageHeight, 'bg-s1-3').setScale(scale).setDepth(70);//地板
     this.add.tileSprite(posX, posY, imageWidth, imageHeight, 'bg-s1-4').setScale(scale).setDepth(100);//光點
+
+    let w = 352, h=162;
+    this.add.tileSprite((w/2)*scale, ((imageHeight-h)/2)*scale, w, h,  'btn0').setScale(scale).setDepth(100);
+    w = 59, h=81;
+    btnL0 = this.add.tileSprite((w/2*2)*scale, ((imageHeight-162)/2)*scale, w, h, 'btnL0').setScale(scale).setDepth(100);
+    btnL1 = this.add.tileSprite((w/2*2)*scale, ((imageHeight-162)/2)*scale, w, h, 'btnL1').setScale(scale).setDepth(100);
+    btnR0 = this.add.tileSprite((w/2*2)*scale*5, ((imageHeight-162)/2)*scale, w, h, 'btnR0').setScale(scale).setDepth(100);
+    btnR1 = this.add.tileSprite((w/2*2)*scale*5, ((imageHeight-162)/2)*scale, w, h, 'btnR1').setScale(scale).setDepth(100);
+    btnL1.visible = false;
+    btnR1.visible = false;
+
+    btnR0.setInteractive({
+        useHandCursor: true
+    }).on('pointerover', () => btnRightOver())
+      .on('pointerout', () => btnRightOut())
+      .on('pointerdown', () => btnRightDown())
+      .on('pointerup', () => btnRightUp());
+
+    btnL0.setInteractive({
+        useHandCursor: true
+    }).on('pointerover', () => btnLeftOver())
+      .on('pointerout', () => btnLeftOut())
+      .on('pointerdown', () => btnLeftDown())
+      .on('pointerup', () => btnLeftUp());
 
     var s1_001, s1_002, s1_003;
     s1_001 = this.physics.add.sprite((1920/3.3)*scale, (1080-(454/2))*scale, 's1-001');
@@ -88,10 +120,77 @@ function create(){
     player = new Player(this, scale);
     player.sprite.setDepth(80);
 
-    //this.physics.add.collider(this.player.sprite, worldLayer);   
-    //this.scale.setGameSize(canvasWidth, canvasHeight);
+    //  Input Events
+    //cursors = this.input.keyboard.createCursorKeys();    
+    cursors = this.input.keyboard.addKeys({ 
+        'left': Phaser.Input.Keyboard.KeyCodes.LEFT,
+        'right': Phaser.Input.Keyboard.KeyCodes.RIGHT,
+        'A': Phaser.Input.Keyboard.KeyCodes.A,
+        'D': Phaser.Input.Keyboard.KeyCodes.D
+    });          
 }
 
+var btnRightOn = false;
+function btnRightOver(){
+    btnRightOn = true;
+}
+function btnRightOut(){
+    btnRightOn = false;
+    player.moveRight = false;
+    btnR1.visible = false;
+}
+function btnRightDown(){
+    if(btnRightOn){
+        player.moveRight = true;
+        btnR1.visible = true;
+    }
+    else{
+        player.moveRight = false;
+        btnR1.visible = false;
+    }
+}
+function btnRightUp(){
+    player.moveRight = false;    
+    btnR1.visible = false;
+}
+
+var btnLeftOn = false;
+function btnLeftOver(){
+    btnLeftOn = true;
+    btnL1.visible = false;
+}
+function btnLeftOut(){
+    btnLeftOn = false;
+    player.moveLeft = false;
+    btnL1.visible = false;
+}
+function btnLeftDown(){
+    if(btnLeftOn){
+        player.moveLeft = true;
+        btnL1.visible = true;
+    }
+    else{
+        player.moveLeft = false;
+        btnL1.visible = false;
+    }
+}
+function btnLeftUp(){
+    player.moveLeft = false;
+    btnL1.visible = false;    
+}
 function update(time, delta){
     player.update();
+    if (cursors.left.isDown || cursors.A.isDown){
+        btnL1.visible = true;
+    }
+    else if(cursors.right.isDown || cursors.D.isDown){
+        btnR1.visible = true;
+    }
+    else{
+        if(!btnRightOn && !btnLeftOn){
+            btnL1.visible = false;
+            btnR1.visible = false;
+        }
+
+    }
 }
