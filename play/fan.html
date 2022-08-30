@@ -56,10 +56,14 @@
             this.anims.create({
                 key: 'open',
                 frames: this.anims.generateFrameNumbers('fan', { start: 0, end: 47 }),
-                frameRate: 5,
-                repeat: -1
+                frameRate: 12,
+                repeat: 0
             });
-            fan.anims.play('open', true);            
+            fan.anims.play('open', true);       
+            
+            this.input.keyboard.on('keydown-SPACE', () => {
+                fan.anims.play('open', true); 
+            });            
         }
         function update(){
             
