@@ -1,4 +1,5 @@
 import Player from './Player.js';
+import Scene2 from './scene2.js';
 
 $(function(){
     setCanvas();
@@ -22,7 +23,8 @@ $(function(){
             update: update
         }
     };
-    var game = new Phaser.Game(config);            
+    var game = new Phaser.Game(config);    
+    game.scene.add('scenes', Scene2);        
 });
 
 function preload() {
@@ -130,6 +132,18 @@ function create(){
         'D': Phaser.Input.Keyboard.KeyCodes.D
     });          
 
+    this.input.keyboard.once('keydown-SPACE', () => {
+        //fade to black
+        //第1個參數是:毫秒
+        //接下來3個參數為淡出的顏色:RGB
+        this.cameras.main.fadeOut(1000, 0, 0, 0);
+    });
+    
+    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+        this.time.delayedCall(1000, () => {
+            this.scene.start('scene2');
+        });        
+    });
 }
 
 var btnRightOn = false;
