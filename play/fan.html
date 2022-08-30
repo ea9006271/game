@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>扇子測試</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="js/func.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>    
+    <script>
+        $(function(){
+            setCanvas();
+            var config = {
+                type: Phaser.AUTO,
+                width: canvasWidth,
+                height: canvasHeight,
+                autoCenter: Phaser.Scale.CENTER_BOTH,
+                transparent: false,
+                parent: "Content",
+                physics: {
+                    default: "arcade",
+                    arcade: {
+                        gravity: { y: 0 },
+                        debug: false
+                    }
+                },
+                scene: {
+                    preload: preload,
+                    create: create,
+                    update: update
+                }
+            };
+            var game = new Phaser.Game(config);    
+        });     
+        function preload() {
+            this.load.spritesheet('fan', 'assets/ani/fan.png', { frameWidth: 646, frameHeight: 440 });
+        }   
+        function create(){
+            //設定背景圖原始寬高
+            let imageWidth = 1920, imageHeight = 1080;
+            let scale = canvasHeight / imageHeight;
+            console.log(scale);
+            let posX = imageWidth * scale / 2;
+            let posY = imageHeight * scale / 2;  
+            
+            var fan;
+            fan = this.physics.add.sprite((1920/2)*scale, (1080/2)*scale, 'fan');
+            fan.setScale(scale).setDepth(55);
+            this.anims.create({
+                key: 'open',
+                frames: this.anims.generateFrameNumbers('fan', { start: 0, end: 47 }),
+                frameRate: 5,
+                repeat: -1
+            });
+            fan.anims.play('open', true);            
+        }
+        function update(){
+            
+        }
+    </script>
+</head>
+<body>
+    <div id="Content"></div>
+</body>
+</html>
