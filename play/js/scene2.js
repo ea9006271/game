@@ -1,8 +1,6 @@
 import Player from './Player.js';
 var player;
-var btnL0, btnL1, btnR0, btnR1;
-var cursors;
-var btnLeftOn = false, btnRightOn = false;
+
 export default class Scene2 extends Phaser.Scene
 {
     constructor()
@@ -76,101 +74,6 @@ export default class Scene2 extends Phaser.Scene
         player = new Player(this, scale);
         player.sprite.setDepth(80);
 
-        w = 352, h=162;
-        this.add.tileSprite((w/2)*scale*1.5, ((imageHeight-h)/2)*scale, w, h,  'btn0').setScale(scale*1.5).setDepth(100);
-        w = 59, h=81;
-        btnL0 = this.add.tileSprite((w/2*2)*scale*1.5, ((imageHeight-162)/2)*scale, w, h, 'btnL0').setScale(scale*1.5).setDepth(100);
-        btnL1 = this.add.tileSprite((w/2*2)*scale*1.5, ((imageHeight-162)/2)*scale, w, h, 'btnL1').setScale(scale*1.5).setDepth(100);
-        btnR0 = this.add.tileSprite((w/2*2)*scale*5*1.5, ((imageHeight-162)/2)*scale, w, h, 'btnR0').setScale(scale*1.5).setDepth(100);
-        btnR1 = this.add.tileSprite((w/2*2)*scale*5*1.5, ((imageHeight-162)/2)*scale, w, h, 'btnR1').setScale(scale*1.5).setDepth(100);    btnL1.visible = false;
-        btnR1.visible = false;
-    
-        btnR0.setInteractive({
-            useHandCursor: true
-        }).on('pointerover', () => btnRightOver())
-          .on('pointerout', () => btnRightOut())
-          .on('pointerdown', () => btnRightDown())
-          .on('pointerup', () => btnRightUp());
-    
-        btnL0.setInteractive({
-            useHandCursor: true
-        }).on('pointerover', () => btnLeftOver())
-          .on('pointerout', () => btnLeftOut())
-          .on('pointerdown', () => btnLeftDown())
-          .on('pointerup', () => btnLeftUp());
-
-        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        function btnRightOver(){
-            btnRightOn = true;
-        }
-        function btnRightOut(){
-            btnRightOn = false;
-            player.moveRight = false;
-            btnR1.visible = false;
-        }
-        function btnRightDown(pointer){
-            if(!isMobile){
-                if(btnRightOn)
-                {
-                    player.moveRight = true;
-                    btnR1.visible = true;
-                }
-                else{
-                    player.moveRight = false;
-                    btnR1.visible = false;
-                }
-            }
-            else{
-                player.moveRight = true;
-                btnR1.visible = true;
-            }
-        }
-        function btnRightUp(){
-            //if(!isMobile)
-            {
-                player.moveRight = false;    
-                btnR1.visible = false;
-            }
-        }
-        
-        function btnLeftOver(){
-            btnLeftOn = true;
-            btnL1.visible = false;
-        }
-        function btnLeftOut(){
-            btnLeftOn = false;
-            player.moveLeft = false;
-            btnL1.visible = false;
-        }
-        function btnLeftDown(){
-            if(!isMobile){
-                if(btnLeftOn){
-                    player.moveLeft = true;
-                    btnL1.visible = true;
-                }
-                else{
-                    player.moveLeft = false;
-                    btnL1.visible = false;
-                }
-            }
-            else{
-                player.moveLeft = true;
-                btnL1.visible = true;
-            }
-        }
-        function btnLeftUp(){
-            player.moveLeft = false;
-            btnL1.visible = false;    
-        }
-        //  Input Events
-        //cursors = this.input.keyboard.createCursorKeys();    
-        cursors = this.input.keyboard.addKeys({ 
-            'left': Phaser.Input.Keyboard.KeyCodes.LEFT,
-            'right': Phaser.Input.Keyboard.KeyCodes.RIGHT,
-            'A': Phaser.Input.Keyboard.KeyCodes.A,
-            'D': Phaser.Input.Keyboard.KeyCodes.D
-        });     
-
         this.cameras.main.fadeIn(1000, 0, 0, 0);
 
         this.input.keyboard.once('keydown-SPACE', () => {
@@ -189,19 +92,6 @@ export default class Scene2 extends Phaser.Scene
 
     update(){
         player.update();
-        if (cursors.left.isDown || cursors.A.isDown){
-            btnL1.visible = true;
-        }
-        else if(cursors.right.isDown || cursors.D.isDown){
-            btnR1.visible = true;
-        }
-        else{
-            if(!btnRightOn && !btnLeftOn){
-                btnL1.visible = false;
-                btnR1.visible = false;
-            }
-    
-        }        
     }
 
     

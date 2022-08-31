@@ -1,3 +1,4 @@
+var moveRight = false, moveLeft = false;
 export default class Player {
     constructor(scene, scale) {
         
@@ -41,23 +42,43 @@ export default class Player {
             'right': Phaser.Input.Keyboard.KeyCodes.RIGHT,
             'A': Phaser.Input.Keyboard.KeyCodes.A,
             'D': Phaser.Input.Keyboard.KeyCodes.D
-        });        
+        });    
+        let x1 = canvasWidth / 5;
+        let x2 = x1 * 4;    
+        scene.input.on('pointerdown', function (pointer) {
+            console.log(canvasWidth);
+            console.log(pointer.x);
+            if(pointer.x < x1){
+                moveLeft = true;
+                moveRight = false;
+            }
+            else if(pointer.x >= x2){
+                moveLeft = false;
+                moveRight = true;
+            }
+            else{
+                moveLeft = false;
+                moveRight = false;
+            }
+        })
+        .on('pointerup', function(){
+            moveLeft = false;
+            moveRight = false;
+        });
+
         this.sprite.anims.play("stand", true);
-        //var moveRight = false, moveLeft = false;
-
-
     }
 
-    update(time, delta) {
+    update() {
         const speed = 175;
         const sprite = this.sprite;
         const prevVelocity = sprite.body.velocity.clone();
         sprite.body.setVelocity(0);        
         const keys = this.keys;
-        if (keys.left.isDown || keys.A.isDown || this.moveLeft) {
+        if (keys.left.isDown || keys.A.isDown || moveLeft) {
             sprite.body.setVelocityX(-speed);
             sprite.anims.play("left", true);
-        } else if (keys.right.isDown || keys.D.isDown  || this.moveRight) {
+        } else if (keys.right.isDown || keys.D.isDown  || moveRight) {
             sprite.body.setVelocityX(speed);
             sprite.anims.play("right", true);
         }

@@ -1,4 +1,3 @@
-import Player from './Player.js';
 import Scene1 from './scene1.js';
 import Scene2 from './scene2.js';
 

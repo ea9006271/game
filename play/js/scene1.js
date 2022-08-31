@@ -1,9 +1,5 @@
 import Player from './Player.js';
 var player, fish;
-var btnL0, btnL1, btnR0, btnR1;
-var cursors;
-var btnLeftOn = false;
-var btnRightOn = false;
 export default class Scene1 extends Phaser.Scene
 {
     constructor()
@@ -23,12 +19,6 @@ export default class Scene1 extends Phaser.Scene
         this.load.image('pic2', 'assets/bg/s1-pic-2.png');
     
         this.load.spritesheet('kuso', 'assets/kuso3d-act_v3.png', { frameWidth: 240, frameHeight: 320 });
-    
-        this.load.image('btn0', 'assets/img/btn0.png');
-        this.load.image('btnL0', 'assets/img/btnL0.png');
-        this.load.image('btnL1', 'assets/img/btnL1.png');
-        this.load.image('btnR0', 'assets/img/btnR0.png');
-        this.load.image('btnR1', 'assets/img/btnR1.png');
     
         this.load.spritesheet('s1-001', 'assets/ani/s1-001.png', { frameWidth: 466, frameHeight: 454 });
         this.load.spritesheet('s1-002', 'assets/ani/s1-002.png', { frameWidth: 394, frameHeight: 868 });
@@ -57,96 +47,6 @@ export default class Scene1 extends Phaser.Scene
         pic1 = this.add.tileSprite(((w*1.5)+(w*0.8))*scale, h/2*scale, w, h, 'pic1').setScale(scale).setDepth(50);
         pic2 = this.add.tileSprite(((w*1.5)+(2*w*0.8))*scale, h/2*scale, w, h, 'pic2').setScale(scale).setDepth(50);
     
-        w = 352, h=162;
-        this.add.tileSprite((w/2)*scale*1.5, ((imageHeight-h)/2)*scale, w, h,  'btn0').setScale(scale*1.5).setDepth(100);
-        w = 59, h=81;
-        btnL0 = this.add.tileSprite((w/2*2)*scale*1.5, ((imageHeight-162)/2)*scale, w, h, 'btnL0').setScale(scale*1.5).setDepth(100);
-        btnL1 = this.add.tileSprite((w/2*2)*scale*1.5, ((imageHeight-162)/2)*scale, w, h, 'btnL1').setScale(scale*1.5).setDepth(100);
-        btnR0 = this.add.tileSprite((w/2*2)*scale*5*1.5, ((imageHeight-162)/2)*scale, w, h, 'btnR0').setScale(scale*1.5).setDepth(100);
-        btnR1 = this.add.tileSprite((w/2*2)*scale*5*1.5, ((imageHeight-162)/2)*scale, w, h, 'btnR1').setScale(scale*1.5).setDepth(100);    btnL1.visible = false;
-        btnR1.visible = false;
-    
-        btnR0.setInteractive({
-            useHandCursor: true
-        }).on('pointerover', () => btnRightOver())
-          .on('pointerout', () => btnRightOut())
-          .on('pointerdown', () => btnRightDown())
-          .on('pointerup', () => btnRightUp());
-    
-        btnL0.setInteractive({
-            useHandCursor: true
-        }).on('pointerover', () => btnLeftOver())
-          .on('pointerout', () => btnLeftOut())
-          .on('pointerdown', () => btnLeftDown())
-          .on('pointerup', () => btnLeftUp());
-        
-        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        //console.log(isMobile);
-        
-        function btnRightOver(){
-            btnRightOn = true;
-        }
-        function btnRightOut(){
-            btnRightOn = false;
-            player.moveRight = false;
-            btnR1.visible = false;
-        }
-        function btnRightDown(pointer){
-            if(!isMobile){
-                if(btnRightOn)
-                {
-                    player.moveRight = true;
-                    btnR1.visible = true;
-                }
-                else{
-                    player.moveRight = false;
-                    btnR1.visible = false;
-                }
-            }
-            else{
-                player.moveRight = true;
-                btnR1.visible = true;
-            }
-        }
-        function btnRightUp(){
-            //if(!isMobile)
-            {
-                player.moveRight = false;    
-                btnR1.visible = false;
-            }
-        }
-        
-        function btnLeftOver(){
-            btnLeftOn = true;
-            btnL1.visible = false;
-        }
-        function btnLeftOut(){
-            btnLeftOn = false;
-            player.moveLeft = false;
-            btnL1.visible = false;
-        }
-        function btnLeftDown(){
-            if(!isMobile){
-                if(btnLeftOn){
-                    player.moveLeft = true;
-                    btnL1.visible = true;
-                }
-                else{
-                    player.moveLeft = false;
-                    btnL1.visible = false;
-                }
-            }
-            else{
-                player.moveLeft = true;
-                btnL1.visible = true;
-            }
-        }
-        function btnLeftUp(){
-            player.moveLeft = false;
-            btnL1.visible = false;    
-        }    
-
-
         var s1_001, s1_002, s1_003;
         s1_001 = this.physics.add.sprite((1920/3.3)*scale, (1080-(454/2))*scale, 's1-001');
         s1_001.setScale(scale).setDepth(55);
@@ -192,15 +92,6 @@ export default class Scene1 extends Phaser.Scene
         player = new Player(this, scale);
         player.sprite.setDepth(80);
     
-        //  Input Events
-        //cursors = this.input.keyboard.createCursorKeys();    
-        cursors = this.input.keyboard.addKeys({ 
-            'left': Phaser.Input.Keyboard.KeyCodes.LEFT,
-            'right': Phaser.Input.Keyboard.KeyCodes.RIGHT,
-            'A': Phaser.Input.Keyboard.KeyCodes.A,
-            'D': Phaser.Input.Keyboard.KeyCodes.D
-        });          
-    
         this.input.keyboard.once('keydown-SPACE', () => {
             //fade to black
             //第1個參數是:毫秒
@@ -218,18 +109,5 @@ export default class Scene1 extends Phaser.Scene
     update(time, delta){
         player.update();
         fish.rotation -= 0.01;
-        if (cursors.left.isDown || cursors.A.isDown){
-            btnL1.visible = true;
-        }
-        else if(cursors.right.isDown || cursors.D.isDown){
-            btnR1.visible = true;
-        }
-        else{
-            if(!btnRightOn && !btnLeftOn){
-                btnL1.visible = false;
-                btnR1.visible = false;
-            }
-    
-        }
     }
 }
