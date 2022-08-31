@@ -26,9 +26,9 @@ export default class Player {
 
         //計算初始位置
         let x = 240*scale*1.4375/2;
-        console.log(x);
+        //console.log(x);
         let y = 320*scale*1.4375*1.75;
-        console.log(y);
+        //console.log(y);
 
         this.sprite = scene.physics.add
             .sprite(x, y, "kuso", 0)//初始位置
@@ -43,9 +43,11 @@ export default class Player {
             'D': Phaser.Input.Keyboard.KeyCodes.D
         });        
         this.sprite.anims.play("stand", true);
-        var moveRight = false, moveLeft = false;
+        //var moveRight = false, moveLeft = false;
+
+
     }
-    
+
     update(time, delta) {
         const speed = 175;
         const sprite = this.sprite;

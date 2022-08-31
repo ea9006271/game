@@ -1,3 +1,4 @@
+const imageWidth = 1920, imageHeight = 1080;
 var canvasWidth = 0, canvasHeight = 0;
 
 function setCanvas() {
