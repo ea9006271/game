@@ -65,7 +65,7 @@ export default class Scene2 extends Phaser.Scene
         this.anims.create({
             key: 's2_003',
             frames: this.anims.generateFrameNumbers('s2-003', { start: 0, end: 15 }),
-            frameRate: 5,
+            frameRate: 7.5,
             repeat: -1
         });
         s2_003.anims.play('s2_003', true);
@@ -88,7 +88,7 @@ export default class Scene2 extends Phaser.Scene
 
         this.physics.add.collider(player.sprite, fish, this.loadScene, null, this);
 
-        this.cameras.main.fadeIn(1000, 0, 0, 0);
+        this.cameras.main.fadeIn(500, 0, 0, 0);
 
         this.input.keyboard.once('keydown-SPACE', () => {
             this.loadScene();
@@ -102,10 +102,10 @@ export default class Scene2 extends Phaser.Scene
         //fade to black
         //第1個參數是:毫秒
         //接下來3個參數為淡出的顏色:RGB
-        this.cameras.main.fadeOut(1000, 0, 0, 0);
+        this.cameras.main.fadeOut(500, 0, 0, 0);
 
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-            this.time.delayedCall(1000, () => {
+            this.time.delayedCall(500, () => {
                 this.scene.start('scene1');
             });        
         });        

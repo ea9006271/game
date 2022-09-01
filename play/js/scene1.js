@@ -1,5 +1,6 @@
 import Player from './Player.js';
 var player, fish;
+var dialog_box, dialog_btn, dialog_kuso;
 export default class Scene1 extends Phaser.Scene
 {
     constructor()
@@ -17,6 +18,10 @@ export default class Scene1 extends Phaser.Scene
         this.load.image('pic0', 'assets/bg/s1-pic-0.png');
         this.load.image('pic1', 'assets/bg/s1-pic-1.png');
         this.load.image('pic2', 'assets/bg/s1-pic-2.png');
+
+        this.load.image('dialog-box', 'assets/img/dialog-box.png');
+        this.load.image('dialog-btn', 'assets/img/dialog-btn.png');
+        this.load.image('dialog-kuso', 'assets/img/dialog-kuso.png');
     
         this.load.spritesheet('kuso', 'assets/kuso3d-act_v3.png', { frameWidth: 240, frameHeight: 320 });
     
@@ -53,7 +58,7 @@ export default class Scene1 extends Phaser.Scene
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('s1-001', { start: 0, end: 15 }),
-            frameRate: 5,
+            frameRate: 7.5,
             repeat: -1
         });
         s1_001.anims.play('idle', true);
@@ -100,22 +105,22 @@ export default class Scene1 extends Phaser.Scene
         
         this.physics.add.collider(player.sprite, fish, this.loadScene, null, this);
 
-        this.cameras.main.fadeIn(1000, 0, 0, 0);
+        this.cameras.main.fadeIn(500, 0, 0, 0);
     }
     loadScene(){
-        this.physics.pause();
+        this.physics.pause();//先暫停否則會連續觸發
         //fade to black
         //第1個參數是:毫秒
         //接下來3個參數為淡出的顏色:RGB
-        this.cameras.main.fadeOut(1000, 0, 0, 0);
+        this.cameras.main.fadeOut(500, 0, 0, 0);
 
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-            this.time.delayedCall(1000, () => {
+            this.time.delayedCall(500, () => {
                 this.scene.start('scene2');
             });        
         });        
     }
-    update(time, delta){
+    update(){
         player.update();
         //fish.rotation -= 0.01;
     }

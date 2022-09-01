@@ -72,7 +72,6 @@ export default class Player {
     }
 
     update() {
-        const speed = 175;
         const sprite = this.sprite;
         const prevVelocity = sprite.body.velocity.clone();
         sprite.body.setVelocity(0);        

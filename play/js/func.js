@@ -1,5 +1,10 @@
 const imageWidth = 1920, imageHeight = 1080;
 var canvasWidth = 0, canvasHeight = 0;
+var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+var speed = 175;
+if(!isMobile){
+    speed*=1.5;
+}
 
 function setCanvas() {
     var w = document.documentElement.clientWidth;
@@ -13,8 +18,8 @@ function setCanvas() {
         canvasWidth = w;
         canvasHeight = h2;
     }
-    console.log(canvasWidth);
-    console.log(canvasHeight);
+    //console.log(canvasWidth);
+    //console.log(canvasHeight);
 }
 
 window.onload = function () {
