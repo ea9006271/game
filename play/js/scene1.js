@@ -79,7 +79,7 @@ export default class Scene1 extends Phaser.Scene
         s1_003.anims.play('idle3', true);
     
         w=102,h=80;
-        fish = this.physics.add.sprite((imageWidth-w)*scale, (imageHeight/2*scale), 'fish');
+        fish = this.physics.add.sprite((imageWidth-w)*scale, (imageHeight-h*2)*scale, 'fish');
         fish.setScale(scale).setDepth(80);
         this.anims.create({
             key: 'swim',
@@ -88,26 +88,36 @@ export default class Scene1 extends Phaser.Scene
             repeat: -1
         });
         fish.anims.play('swim', true);
+        fish.setCollideWorldBounds(true);
+        //fish.setDepth(80);
     
         player = new Player(this, scale);
         player.sprite.setDepth(80);
     
         this.input.keyboard.once('keydown-SPACE', () => {
-            //fade to black
-            //第1個參數是:毫秒
-            //接下來3個參數為淡出的顏色:RGB
-            this.cameras.main.fadeOut(1000, 0, 0, 0);
+            this.loadScene();
         });
         
+        this.physics.add.collider(player.sprite, fish, this.loadScene, null, this);
+
+        this.cameras.main.fadeIn(1000, 0, 0, 0);
+    }
+    loadScene(){
+        this.physics.pause();
+        //fade to black
+        //第1個參數是:毫秒
+        //接下來3個參數為淡出的顏色:RGB
+        this.cameras.main.fadeOut(1000, 0, 0, 0);
+
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
             this.time.delayedCall(1000, () => {
                 this.scene.start('scene2');
             });        
-        });
+        });        
     }
-    
     update(time, delta){
         player.update();
-        fish.rotation -= 0.01;
+        //fish.rotation -= 0.01;
     }
+    
 }

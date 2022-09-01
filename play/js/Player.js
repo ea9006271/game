@@ -3,6 +3,8 @@ export default class Player {
     constructor(scene, scale) {
         
         this.scene = scene;
+        //this.scene.physics.world.enable(this);
+        //this.scene.add.existing(this);
 
         const anims = scene.anims;
         //角色動畫
@@ -30,12 +32,14 @@ export default class Player {
         //console.log(x);
         let y = 320*scale*1.4375*1.75;
         //console.log(y);
-
+        
         this.sprite = scene.physics.add
             .sprite(x, y, "kuso", 0)//初始位置
-            .setSize(240, 320)//碰撞器大小
-            .setOffset(0, 0)//碰撞器位置
+            .setSize(150, 320)//碰撞器大小
+            .setOffset(50, 0)//碰撞器位置
             .setScale(scale*1.4375); //縮放比例
+        
+            this.sprite.setCollideWorldBounds(true);//會碰撞遊戲世界的邊界
 
         this.keys =scene.input.keyboard.addKeys({ 
             'left': Phaser.Input.Keyboard.KeyCodes.LEFT,
@@ -46,8 +50,6 @@ export default class Player {
         let x1 = canvasWidth / 5;
         let x2 = x1 * 4;    
         scene.input.on('pointerdown', function (pointer) {
-            console.log(canvasWidth);
-            console.log(pointer.x);
             if(pointer.x < x1){
                 moveLeft = true;
                 moveRight = false;
