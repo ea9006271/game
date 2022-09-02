@@ -9,15 +9,7 @@ export default class Scene2 extends Phaser.Scene
 
     preload()
     {
-        this.load.image('bg-s2-0', 'assets/bg/s2-0.png');
-        this.load.image('bg-s2-1', 'assets/bg/s2-1.png');
-        this.load.image('bg-s2-2', 'assets/bg/s2-2.png');
-        this.load.image('bg-s2-3', 'assets/bg/s2-3.png');
-        this.load.image('bg-s2-4', 'assets/bg/s2-4.png');
 
-        this.load.spritesheet('s2-001', 'assets/ani/s2-001.png', { frameWidth: 640, frameHeight: 1080 });
-        this.load.spritesheet('s2-002', 'assets/ani/s2-002.png', { frameWidth: 340, frameHeight: 822 });
-        this.load.spritesheet('s2-003', 'assets/ani/s2-003.png', { frameWidth: 502, frameHeight: 580 });
     }
 
     create()
@@ -83,7 +75,7 @@ export default class Scene2 extends Phaser.Scene
         fish.setCollideWorldBounds(true);
         fish.setDepth(100);
 
-        player = new Player(this, scale);
+        player = new Player(this);
         player.sprite.setDepth(80);
 
         this.physics.add.collider(player.sprite, fish, this.loadScene, null, this);
@@ -105,7 +97,7 @@ export default class Scene2 extends Phaser.Scene
         this.cameras.main.fadeOut(500, 0, 0, 0);
 
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-            this.time.delayedCall(500, () => {
+            this.time.delayedCall(0, () => {
                 this.scene.start('scene1');
             });        
         });        

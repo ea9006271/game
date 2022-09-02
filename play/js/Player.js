@@ -1,6 +1,6 @@
 var moveRight = false, moveLeft = false;
 export default class Player {
-    constructor(scene, scale) {
+    constructor(scene) {
         
         this.scene = scene;
         //this.scene.physics.world.enable(this);
@@ -28,16 +28,16 @@ export default class Player {
         });
 
         //計算初始位置
-        let x = 240*scale*1.4375/2;
+        let x = 240*gameScale*1.4375/2;
         //console.log(x);
-        let y = 320*scale*1.4375*1.75;
+        let y = 320*gameScale*1.4375*1.75;
         //console.log(y);
         
         this.sprite = scene.physics.add
             .sprite(x, y, "kuso", 0)//初始位置
             .setSize(150, 320)//碰撞器大小
             .setOffset(50, 0)//碰撞器位置
-            .setScale(scale*1.4375); //縮放比例
+            .setScale(gameScale*1.4375); //縮放比例
         
             this.sprite.setCollideWorldBounds(true);//會碰撞遊戲世界的邊界
 

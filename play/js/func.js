@@ -1,5 +1,6 @@
 const imageWidth = 1920, imageHeight = 1080;
 var canvasWidth = 0, canvasHeight = 0;
+var gameScale = 0;
 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 var speed = 175;
 if(!isMobile){
@@ -18,6 +19,7 @@ function setCanvas() {
         canvasWidth = w;
         canvasHeight = h2;
     }
+    gameScale = canvasHeight / imageHeight;
     //console.log(canvasWidth);
     //console.log(canvasHeight);
 }

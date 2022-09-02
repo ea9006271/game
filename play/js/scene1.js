@@ -1,6 +1,7 @@
+import DialogBox from './DialogBox.js';
 import Player from './Player.js';
 var player, fish;
-var dialog_box, dialog_btn, dialog_kuso;
+var dialogBox;
 export default class Scene1 extends Phaser.Scene
 {
     constructor()
@@ -9,27 +10,7 @@ export default class Scene1 extends Phaser.Scene
     }
     
     preload() {
-        this.load.image('bg-s1-0', 'assets/bg/s1-0.png');
-        this.load.image('bg-s1-1', 'assets/bg/s1-1.png');
-        this.load.image('bg-s1-2', 'assets/bg/s1-2.png');
-        this.load.image('bg-s1-3', 'assets/bg/s1-3.png');
-        this.load.image('bg-s1-4', 'assets/bg/s1-4.png');
-    
-        this.load.image('pic0', 'assets/bg/s1-pic-0.png');
-        this.load.image('pic1', 'assets/bg/s1-pic-1.png');
-        this.load.image('pic2', 'assets/bg/s1-pic-2.png');
 
-        this.load.image('dialog-box', 'assets/img/dialog-box.png');
-        this.load.image('dialog-btn', 'assets/img/dialog-btn.png');
-        this.load.image('dialog-kuso', 'assets/img/dialog-kuso.png');
-    
-        this.load.spritesheet('kuso', 'assets/kuso3d-act_v3.png', { frameWidth: 240, frameHeight: 320 });
-    
-        this.load.spritesheet('s1-001', 'assets/ani/s1-001.png', { frameWidth: 466, frameHeight: 454 });
-        this.load.spritesheet('s1-002', 'assets/ani/s1-002.png', { frameWidth: 394, frameHeight: 868 });
-        this.load.spritesheet('s1-003', 'assets/ani/s1-003.png', { frameWidth: 634, frameHeight: 1076 });
-    
-        this.load.spritesheet('fish', 'assets/ani/s1-fish.png', { frameWidth: 102, frameHeight: 80 });
     }
     
     create(){
@@ -52,7 +33,7 @@ export default class Scene1 extends Phaser.Scene
         pic1 = this.add.tileSprite(((w*1.5)+(w*0.8))*scale, h/2*scale, w, h, 'pic1').setScale(scale).setDepth(50);
         pic2 = this.add.tileSprite(((w*1.5)+(2*w*0.8))*scale, h/2*scale, w, h, 'pic2').setScale(scale).setDepth(50);
     
-        var s1_001, s1_002, s1_003;
+        var s1_001, s1_002, s1_003, redfish;
         s1_001 = this.physics.add.sprite((1920/3.3)*scale, (1080-(454/2))*scale, 's1-001');
         s1_001.setScale(scale).setDepth(55);
         this.anims.create({
@@ -83,6 +64,17 @@ export default class Scene1 extends Phaser.Scene
         });
         s1_003.anims.play('idle3', true);
     
+        w=1080, h=640;
+        redfish = this.physics.add.sprite((imageWidth-w/2)*scale, (imageHeight-(h/2))*scale, 'redfish');
+        redfish.setScale(scale).setDepth(80);
+        this.anims.create({
+            key: 'redfish',
+            frames: this.anims.generateFrameNumbers('redfish', { start: 0, end: 79 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        redfish.anims.play('redfish', true);
+
         w=102,h=80;
         fish = this.physics.add.sprite((imageWidth-w)*scale, (imageHeight-h*2)*scale, 'fish');
         fish.setScale(scale).setDepth(80);
@@ -96,9 +88,11 @@ export default class Scene1 extends Phaser.Scene
         fish.setCollideWorldBounds(true);
         //fish.setDepth(80);
     
-        player = new Player(this, scale);
+        player = new Player(this);
         player.sprite.setDepth(80);
     
+        dialogBox = new DialogBox(this);
+
         this.input.keyboard.once('keydown-SPACE', () => {
             this.loadScene();
         });
@@ -115,7 +109,7 @@ export default class Scene1 extends Phaser.Scene
         this.cameras.main.fadeOut(500, 0, 0, 0);
 
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-            this.time.delayedCall(500, () => {
+            this.time.delayedCall(0, () => {
                 this.scene.start('scene2');
             });        
         });        
