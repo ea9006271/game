@@ -77,9 +77,15 @@ export default class Player {
         sprite.body.setVelocity(0);        
         const keys = this.keys;
         if (keys.left.isDown || keys.A.isDown || moveLeft) {
+            if(gameLevel == 2){
+                sprite.body.setVelocityY(100);
+            }               
             sprite.body.setVelocityX(-speed);
             sprite.anims.play("left", true);
         } else if (keys.right.isDown || keys.D.isDown  || moveRight) {
+            if(gameLevel == 2){
+                sprite.body.setVelocityY(-100);
+            }            
             sprite.body.setVelocityX(speed);
             sprite.anims.play("right", true);
         }

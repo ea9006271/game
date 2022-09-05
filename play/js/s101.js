@@ -1,7 +1,6 @@
 import DialogBox from './DialogBox.js';
 import Player from './Player.js';
-var player, fish;
-var dialogBox;
+
 export default class Scene1 extends Phaser.Scene
 {
     constructor()
@@ -14,8 +13,9 @@ export default class Scene1 extends Phaser.Scene
     }
     
     create(){
+        //var player, fish;
+        //var dialogBox;        
         //設定背景圖原始寬高
-        
         let scale = canvasHeight / imageHeight;
         //console.log(scale);
         let posX = imageWidth * scale / 2;
@@ -76,30 +76,34 @@ export default class Scene1 extends Phaser.Scene
         redfish.anims.play('redfish', true);
 
         w=102,h=80;
-        fish = this.physics.add.sprite((imageWidth-w)*scale, (imageHeight-h*2)*scale, 'fish');
-        fish.setScale(scale).setDepth(80);
+        this.fish = this.physics.add.sprite((imageWidth-w)*scale, (imageHeight-h*2)*scale, 'fish');
+        this.fish.setScale(scale).setDepth(80);
         this.anims.create({
             key: 'swim',
             frames: this.anims.generateFrameNumbers('fish', { start: 0, end: 15 }),
             frameRate: 10,
             repeat: -1
         });
-        fish.anims.play('swim', true);
-        fish.setCollideWorldBounds(true);
+        this.fish.anims.play('swim', true);
+        this.fish.setCollideWorldBounds(true);
         //fish.setDepth(80);
     
-        player = new Player(this);
-        player.sprite.setDepth(80);
+        this.player = new Player(this);
+        this.player.sprite.setDepth(80);
     
-        dialogBox = new DialogBox(this);
+        this.dialogBox = new DialogBox(this);
 
         this.input.keyboard.once('keydown-SPACE', () => {
             this.loadScene();
         });
         
-        this.physics.add.collider(player.sprite, fish, this.loadScene, null, this);
+        this.physics.add.collider(this.player.sprite, this.fish, this.loadScene, null, this);
 
         this.cameras.main.fadeIn(500, 0, 0, 0);
+
+        this.input.keyboard.on('keydown-S', () => {
+            this.dialogBox.show();
+        });
     }
     loadScene(){
         this.physics.pause();//先暫停否則會連續觸發
@@ -114,9 +118,10 @@ export default class Scene1 extends Phaser.Scene
             });        
         });        
     }
-    update(){
-        player.update();
+    update(time, delta){
+        this.player.update();
         //fish.rotation -= 0.01;
+        this.dialogBox.update(time, delta);
     }
     
 }

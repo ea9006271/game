@@ -68,9 +68,26 @@
         function update(){
             
         }
+
+     
     </script>
 </head>
 <body>
-    <div id="Content"></div>
+    <!--<div id="Content"></div>-->
+    <div id="Text"></div>
+    <script>
+        (function () {
+            const container = document.getElementById('Text')
+            const data = '與 setTimeout 相比，requestAnimationFrame 最大的優勢是 由系統來決定回撥函式的執行時機。具體一點講就是，系統每次繪製之前會主動呼叫 requestAnimationFrame 中的回撥函式，如果系統繪製率是 60Hz，那麼回撥函式就每16.7ms 被執行一次，如果繪製頻率是75Hz，那麼這個間隔時間就變成了 1000/75=13.3ms。換句話說就是，requestAnimationFrame 的執行步伐跟著系統的繪製頻率走。它能保證回撥函式在螢幕每一次的繪製間隔中只被執行一次，這樣就不會引起丟幀現象，也不會導致動畫出現卡頓的問題。'.split('')
+            let index = 0
+            function writing() {
+            if (index < data.length) {
+                container.innerHTML += data[index ++]
+                requestAnimationFrame(writing)
+            }
+            }
+            writing()
+        })();           
+    </script>
 </body>
 </html>
